@@ -56,138 +56,31 @@ export const logout = () => {
     window.location.href = '/login';
 };
 
-// Department API calls
-export const getDepartments = async () => {
-    try {
-        const response = await api.get('/departments');
-        return response.data;
-    } catch (error) {
-        console.error('Get departments error:', error);
-        throw error;
-    }
-};
+// Car API calls
+export const getCars = async () => api.get('/cars');
+export const createCar = async (data) => api.post('/cars', data);
+export const updateCar = async (id, data) => api.put(`/cars/${id}`, data);
+export const deleteCar = async (id) => api.delete(`/cars/${id}`);
 
-export const createDepartment = async (departmentData) => {
-    try {
-        const response = await api.post('/departments', departmentData);
-        return response.data;
-    } catch (error) {
-        console.error('Create department error:', error);
-        throw error;
-    }
-};
+// Service API calls
+export const getServices = async () => api.get('/services');
+export const createService = async (data) => api.post('/services', data);
+export const updateService = async (id, data) => api.put(`/services/${id}`, data);
+export const deleteService = async (id) => api.delete(`/services/${id}`);
 
-export const updateDepartment = async (departmentCode, departmentData) => {
-    try {
-        const response = await api.put(`/departments/${departmentCode}`, departmentData);
-        return response.data;
-    } catch (error) {
-        console.error('Update department error:', error);
-        throw error;
-    }
-};
+// ServiceRecord API calls
+export const getServiceRecords = async () => api.get('/servicerecords');
+export const createServiceRecord = async (data) => api.post('/servicerecords', data);
+export const updateServiceRecord = async (id, data) => api.put(`/servicerecords/${id}`, data);
+export const deleteServiceRecord = async (id) => api.delete(`/servicerecords/${id}`);
 
-export const deleteDepartment = async (departmentCode) => {
-    try {
-        const response = await api.delete(`/departments/${departmentCode}`);
-        return response.data;
-    } catch (error) {
-        console.error('Delete department error:', error);
-        throw error;
-    }
-};
+// Payment API calls
+export const getPayments = async () => api.get('/payments');
+export const createPayment = async (data) => api.post('/payments', data);
+export const updatePayment = async (id, data) => api.put(`/payments/${id}`, data);
+export const deletePayment = async (id) => api.delete(`/payments/${id}`);
 
-// Employee API calls
-export const getEmployees = async () => {
-    try {
-        const response = await api.get('/employees');
-        return response.data;
-    } catch (error) {
-        console.error('Get employees error:', error);
-        throw error;
-    }
-};
-
-export const createEmployee = async (employeeData) => {
-    try {
-        const response = await api.post('/employees', employeeData);
-        return response.data;
-    } catch (error) {
-        console.error('Create employee error:', error);
-        throw error;
-    }
-};
-
-export const updateEmployee = async (employeeNumber, employeeData) => {
-    try {
-        const response = await api.put(`/employees/${employeeNumber}`, employeeData);
-        return response.data;
-    } catch (error) {
-        console.error('Update employee error:', error);
-        throw error;
-    }
-};
-
-export const deleteEmployee = async (employeeNumber) => {
-    try {
-        const response = await api.delete(`/employees/${employeeNumber}`);
-        return response.data;
-    } catch (error) {
-        console.error('Delete employee error:', error);
-        throw error;
-    }
-};
-
-// Salary API calls
-export const getSalaries = async () => {
-    try {
-        const response = await api.get('/salaries');
-        return response.data;
-    } catch (error) {
-        console.error('Get salaries error:', error);
-        throw error;
-    }
-};
-
-export const createSalary = async (salaryData) => {
-    try {
-        const response = await api.post('/salaries', salaryData);
-        return response.data;
-    } catch (error) {
-        console.error('Create salary error:', error);
-        throw error;
-    }
-};
-
-export const updateSalary = async (salaryId, salaryData) => {
-    try {
-        const response = await api.put(`/salaries/${salaryId}`, salaryData);
-        return response.data;
-    } catch (error) {
-        console.error('Update salary error:', error);
-        throw error;
-    }
-};
-
-export const deleteSalary = async (salaryId) => {
-    try {
-        const response = await api.delete(`/salaries/${salaryId}`);
-        return response.data;
-    } catch (error) {
-        console.error('Delete salary error:', error);
-        throw error;
-    }
-};
-
-// Report API calls
-export const getMonthlyReport = async () => {
-    try {
-        const response = await api.get('/reports/monthly');
-        return response.data;
-    } catch (error) {
-        console.error('Get monthly report error:', error);
-        throw error;
-    }
-};
+// Reports API calls
+export const getDailyReport = async () => api.get('/reports/daily');
 
 export default api; 

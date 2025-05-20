@@ -1,13 +1,14 @@
-# Employee Payroll Management System (EPMS)
+# Car Repair and Payment Management System (CRPMS)
 
-A web-based application for managing employee payroll and department information.
+A web-based application for managing car repairs, services, and payments.
 
 ## Features
 
-- Employee Management
-- Department Management
-- Salary Management
-- Monthly Payroll Reports
+- Car Management
+- Service Management
+- Service Records
+- Payment Processing
+- Daily Reports
 - User Authentication
 
 ## Tech Stack
@@ -17,6 +18,12 @@ A web-based application for managing employee payroll and department information
 - Database: MySQL
 - Authentication: JWT
 
+## Prerequisites
+
+- Node.js (v14 or higher)
+- MySQL Server
+- XAMPP (for local development)
+
 ## Setup Instructions
 
 1. Clone the repository
@@ -24,250 +31,237 @@ A web-based application for managing employee payroll and department information
 git clone [repository-url]
 ```
 
-2. Install dependencies
+2. Database Setup
+- Start XAMPP and ensure MySQL service is running
+- Create a new database named `crpms`
+- Import the database schema from `database/crpms.sql`
+
+3. Install dependencies
 ```bash
 # Backend
 cd backend-project
 npm install
 
 # Frontend
-cd ../frontend-frontend
+cd ../frontend-project
 npm install
 ```
 
-3. Configure environment variables
+4. Configure environment variables
 Create a `.env` file in the backend directory with:
 ```
 DB_HOST=localhost
 DB_USER=root
 DB_PASSWORD=
-DB_NAME=epms
+DB_NAME=crpms
 PORT=5000
 JWT_SECRET=your_jwt_secret_key_here
 ```
 
-4. Start the application
+5. Start the application
 ```bash
 # Backend
-cd backend
+cd backend-project
 npm run dev
 
 # Frontend
-cd ../frontend
+cd ../frontend-project
 npm start
 ```
 
-## API Testing with Postman
+## API Endpoints
 
-### 1. Non-Protected Routes (Authentication)
+### Authentication
 
-#### Register a New User
+#### Register
 - Method: POST
 - URL: `http://localhost:5000/api/auth/register`
-- Headers: 
-  ```
-  Content-Type: application/json
-  ```
-- Body (raw JSON):
+- Body:
   ```json
   {
-      "username": "your_username",
-      "password": "your_password"
+    "username": "your_username",
+    "password": "your_password"
   }
   ```
 
 #### Login
 - Method: POST
 - URL: `http://localhost:5000/api/auth/login`
-- Headers: 
-  ```
-  Content-Type: application/json
-  ```
-- Body (raw JSON):
+- Body:
   ```json
   {
-      "username": "your_username",
-      "password": "your_password"
-  }
-  ```
-- Response will include a JWT token:
-  ```json
-  {
-      "token": "eyJhbGciOiJIUzI1NiIs..."
+    "username": "your_username",
+    "password": "your_password"
   }
   ```
 
-### 2. Protected Routes
+### Car Management
 
-For all protected routes, you need to include the JWT token in the request header:
-```
-Authorization: Bearer your_token_here
-```
-example in header
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIs...  (your token here)
-
-#### Employee Management
-
-1. Get All Employees
+#### Get All Cars
 - Method: GET
-- URL: `http://localhost:5000/api/employees`
+- URL: `http://localhost:5000/api/cars`
 - Headers: Include Authorization token
 
-2. Create Employee
+#### Create Car
 - Method: POST
-- URL: `http://localhost:5000/api/employees`
+- URL: `http://localhost:5000/api/cars`
 - Headers: Include Authorization token
-- Body (raw JSON):
+- Body:
   ```json
   {
-      "firstName": "John",
-      "lastName": "Doe",
-      "address": "123 Main St",
-      "position": "Developer",
-      "telephone": "1234567890",
-      "gender": "Male",
-      "hiredDate": "2024-03-20",
-      "departmentCode": 1
+    "plateNumber": "ABC123",
+    "brand": "Toyota",
+    "model": "Camry",
+    "year": 2020,
+    "color": "Silver",
+    "ownerName": "John Doe",
+    "ownerPhone": "1234567890"
   }
   ```
 
-#### Department Management
+### Service Management
 
-1. Get All Departments
+#### Get All Services
 - Method: GET
-- URL: `http://localhost:5000/api/departments`
+- URL: `http://localhost:5000/api/services`
 - Headers: Include Authorization token
 
-2. Create Department
+#### Create Service
 - Method: POST
-- URL: `http://localhost:5000/api/departments`
+- URL: `http://localhost:5000/api/services`
 - Headers: Include Authorization token
-- Body (raw JSON):
+- Body:
   ```json
   {
-      "departmentName": "IT Department"
+    "serviceName": "Oil Change",
+    "description": "Regular oil change service",
+    "price": 50.00
   }
   ```
 
-#### Salary Management
+### Service Records
 
-1. Get All Salaries
+#### Get All Service Records
 - Method: GET
-- URL: `http://localhost:5000/api/salaries`
+- URL: `http://localhost:5000/api/service-records`
 - Headers: Include Authorization token
 
-2. Create Salary Record
+#### Create Service Record
 - Method: POST
-- URL: `http://localhost:5000/api/salaries`
+- URL: `http://localhost:5000/api/service-records`
 - Headers: Include Authorization token
-- Body (raw JSON):
+- Body:
   ```json
   {
-      "employeeNumber": 1,
-      "grossSalary": 5000,
-      "totalDeduction": 500,
-      "netSalary": 4500,
-      "month": "2024-03"
+    "carId": 1,
+    "serviceId": 1,
+    "date": "2024-03-20",
+    "status": "pending",
+    "notes": "Regular maintenance"
   }
   ```
 
-#### Reports
+### Payments
 
-1. Get Monthly Report
+#### Get All Payments
 - Method: GET
-- URL: `http://localhost:5000/api/reports/monthly`
+- URL: `http://localhost:5000/api/payments`
 - Headers: Include Authorization token
 
-### Testing Tips
-
-1. **Setting Up Authorization Headers in Postman**:
-   
-   a. **Manual Method**:
-   - After login, copy the JWT token from the response
-   - In your request, go to the "Headers" tab
-   - Add a new header:
-     ```
-     Key: Authorization
-     Value: Bearer eyJhbGciOiJIUzI1NiIs... (your token here)
-     ```
-
-   b. **Using Postman Environment Variables (Recommended)**:
-   1. Click on "Environments" in Postman
-   2. Create a new environment (e.g., "EPMS Local")
-   3. Add these variables:
-      ```
-      baseUrl: http://localhost:5000
-      token: (leave empty for now)
-      ```
-   4. After login, use this script in the "Tests" tab to automatically save the token:
-      ```javascript
-      if (pm.response.code === 200) {
-          var jsonData = pm.response.json();
-          pm.environment.set("token", jsonData.token);
-      }
-      ```
-   5. In your requests, use the token variable:
-      ```
-      Key: Authorization
-      Value: Bearer {{token}}
-      ```
-
-   c. **Using Postman Authorization**:
-   1. Go to the "Authorization" tab in your request
-   2. Select "Bearer Token" from the Type dropdown
-   3. Enter your token in the "Token" field
-   4. Or use the variable: {{token}}
-
-2. **Token Management**:
-   - After login, copy the token from the response
-   - In Postman, you can create an environment variable to store the token
-   - Use the variable in your Authorization header: `Bearer {{token}}`
-
-3. **Error Handling**:
-   - 401 Unauthorized: Missing or invalid token
-   - 403 Forbidden: Valid token but insufficient permissions
-   - 404 Not Found: Resource doesn't exist
-   - 400 Bad Request: Invalid input data
-
-4. **Postman Collection**:
-   - Create a collection for all EPMS endpoints
-   - Use environment variables for base URL and token
-   - Group requests by feature (Auth, Employees, Departments, etc.)
-
-5. **Testing Sequence**:
-   1. Register a new user
-   2. Login to get the token
-   3. Use the token to access protected routes
-   4. Test CRUD operations for each resource
-   5. Verify the monthly report
-
-## API Endpoints
-
-### Authentication
-- POST `/api/auth/login` - User login
-- POST `/api/auth/register` - User registration
-
-### Employees
-- GET `/api/employees` - Get all employees
-- GET `/api/employees/:id` - Get employee by ID
-- POST `/api/employees` - Create new employee
-- PUT `/api/employees/:id` - Update employee
-- DELETE `/api/employees/:id` - Delete employee
-
-### Departments
-- GET `/api/departments` - Get all departments
-- GET `/api/departments/:id` - Get department by ID
-- POST `/api/departments` - Create new department
-- PUT `/api/departments/:id` - Update department
-- DELETE `/api/departments/:id` - Delete department
-
-### Salaries
-- GET `/api/salaries` - Get all salaries
-- GET `/api/salaries/employee/:employeeId` - Get salaries by employee
-- POST `/api/salaries` - Create new salary record
-- PUT `/api/salaries/:id` - Update salary record
-- DELETE `/api/salaries/:id` - Delete salary record
+#### Create Payment
+- Method: POST
+- URL: `http://localhost:5000/api/payments`
+- Headers: Include Authorization token
+- Body:
+  ```json
+  {
+    "serviceRecordId": 1,
+    "amount": 50.00,
+    "paymentMethod": "cash",
+    "paymentDate": "2024-03-20"
+  }
+  ```
 
 ### Reports
-- GET `/api/reports/monthly` - Get monthly payroll report 
+
+#### Get Daily Report
+- Method: GET
+- URL: `http://localhost:5000/api/reports/daily`
+- Headers: Include Authorization token
+- Query Parameters:
+  - date: YYYY-MM-DD (optional)
+
+## Frontend Routes
+
+- `/` - Dashboard
+- `/cars` - Car Management
+- `/services` - Service Management
+- `/service-records` - Service Records
+- `/payments` - Payment Management
+- `/reports` - Daily Reports
+
+## Development
+
+### Backend Structure
+```
+backend-project/
+├── config/
+│   └── database.js
+├── controllers/
+│   ├── authController.js
+│   ├── carController.js
+│   ├── serviceController.js
+│   ├── serviceRecordController.js
+│   ├── paymentController.js
+│   └── reportController.js
+├── middleware/
+│   └── auth.js
+├── models/
+│   ├── Car.js
+│   ├── Service.js
+│   ├── ServiceRecord.js
+│   └── Payment.js
+├── routes/
+│   ├── auth.js
+│   ├── cars.js
+│   ├── services.js
+│   ├── serviceRecords.js
+│   ├── payments.js
+│   └── reports.js
+└── server.js
+```
+
+### Frontend Structure
+```
+frontend-project/
+├── src/
+│   ├── components/
+│   │   ├── Navigation.js
+│   │   ├── CarForm.js
+│   │   ├── ServiceForm.js
+│   │   ├── ServiceRecordForm.js
+│   │   └── PaymentForm.js
+│   ├── pages/
+│   │   ├── Dashboard.js
+│   │   ├── Cars.js
+│   │   ├── Services.js
+│   │   ├── ServiceRecords.js
+│   │   ├── Payments.js
+│   │   └── Reports.js
+│   ├── services/
+│   │   └── api.js
+│   └── App.js
+└── package.json
+```
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License. 

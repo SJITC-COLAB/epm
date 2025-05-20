@@ -3,12 +3,15 @@ const cors = require('cors');
 require('dotenv').config();
 
 const { pool, testConnection } = require('./config/db');
-const employeeRoutes = require('./routes/employeeRoutes');
-const departmentRoutes = require('./routes/departmentRoutes');
-const salaryRoutes = require('./routes/salaryRoutes');
 const reportRoutes = require('./routes/reportRoutes');
 const authRoutes = require('./routes/authRoutes');
 const { errorHandler } = require('./middlewares/errorHandler');
+
+// New CRPMS routes
+const serviceRoutes = require('./routes/ServiceRoutes');
+const carRoutes = require('./routes/CarRoutes');
+const serviceRecordRoutes = require('./routes/ServiceRecordRoutes');
+const paymentRoutes = require('./routes/PaymentRoutes');
 
 const app = express();
 
@@ -19,9 +22,10 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use('/api/auth', authRoutes);
-app.use('/api/employees', employeeRoutes);
-app.use('/api/departments', departmentRoutes);
-app.use('/api/salaries', salaryRoutes);
+app.use('/api/services', serviceRoutes);
+app.use('/api/cars', carRoutes);
+app.use('/api/servicerecords', serviceRecordRoutes);
+app.use('/api/payments', paymentRoutes);
 app.use('/api/reports', reportRoutes);
 
 // Error handling middleware

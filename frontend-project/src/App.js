@@ -2,9 +2,10 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import Dashboard from './pages/Dashboard';
-import EmployeePage from './pages/EmployeePage';
-import DepartmentPage from './pages/DepartmentPage';
-import SalaryPage from './pages/SalaryPage';
+import CarPage from './pages/CarPage';
+import ServicePage from './pages/ServicePage';
+import ServiceRecordPage from './pages/ServiceRecordPage';
+import PaymentPage from './pages/PaymentPage';
 import ReportsPage from './pages/ReportsPage';
 
 // Protected Route component
@@ -17,13 +18,14 @@ const ProtectedRoute = ({ children }) => {
 };
 
 const App = () => {
+    const token = localStorage.getItem('token');
     return (
         <div className="min-h-screen bg-gray-100">
             <Router>
                 <Routes>
                     {/* Public route */}
                     <Route path="/login" element={<LoginPage />} />
-                    
+
                     {/* Protected routes */}
                     <Route
                         path="/dashboard"
@@ -34,26 +36,34 @@ const App = () => {
                         }
                     />
                     <Route
-                        path="/employees"
+                        path="/cars"
                         element={
                             <ProtectedRoute>
-                                <EmployeePage />
+                                <CarPage />
                             </ProtectedRoute>
                         }
                     />
                     <Route
-                        path="/departments"
+                        path="/services"
                         element={
                             <ProtectedRoute>
-                                <DepartmentPage />
+                                <ServicePage />
                             </ProtectedRoute>
                         }
                     />
                     <Route
-                        path="/salaries"
+                        path="/servicerecords"
                         element={
                             <ProtectedRoute>
-                                <SalaryPage />
+                                <ServiceRecordPage />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/payments"
+                        element={
+                            <ProtectedRoute>
+                                <PaymentPage />
                             </ProtectedRoute>
                         }
                     />
@@ -65,10 +75,10 @@ const App = () => {
                             </ProtectedRoute>
                         }
                     />
-                    
+
                     {/* Redirect routes */}
-                    <Route path="/" element={<Navigate to="/dashboard" replace />} />
-                    <Route path="*" element={<Navigate to="/dashboard" replace />} />
+                    <Route path="/" element={<Navigate to={token ? "/cars" : "/login"} replace />} />
+                    <Route path="*" element={<Navigate to="/login" replace />} />
                 </Routes>
             </Router>
         </div>
